@@ -37,7 +37,6 @@ def getLandmarks(song_name, song, duration):
     highscores = np.zeros((len(results), 5))
     points = np.zeros((len(results), 5))
     h = np.zeros(len(results))
-    diff = np.zeros(len(results))
 
     for t in range(len(results)):
         for freq in range(40, 300):
@@ -55,10 +54,26 @@ def getLandmarks(song_name, song, duration):
 
     intervals = np.array(intervals)
     songId = np.array(songId)
-    
-    #song_landmarks = np.concatenate((songId[:, np.newaxis], intervals[:, np.newaxis], h[:, np.newaxis], diff[:, np.newaxis]), axis = 1)
 
     df = pd.DataFrame({'id': songId, 'time': intervals, 'hash': h})
     df = df[df['hash'] != '0.0']
+
+    return df
+
+def match_songs(db_dir, audio, duration):
+    landmarks_test = getLandmarks('Test 1', audio, duration)
+    landmarks_db = pd.read_csv(db_dir, header=0)
+
+    landmarks_db['diff'] = 0
+
+    for index, row in landmarks_test.iterrows():
+        df = landmarks_db[landmarks_db['hash'] == row['hash']]
+        
+        for index2, row2 in df.iterrows():
+            diff = abs(row2['time'] - row['time'])
+            landmarks_db.loc[index2, 'diff'] = diff
+
+    landmarks_db = landmarks_db[landmarks_db['diff'] != 0]
+    df = landmarks_db.groupby(['id', 'diff']).size().groupby('id').sum()
 
     return df
