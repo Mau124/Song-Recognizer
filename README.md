@@ -1,2 +1,1 @@
-# SongAnalizer
-Shazam like project. 
+# Proyecto Materia Análisis de métodos matemáticos
