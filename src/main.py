@@ -13,7 +13,7 @@ import analize_song as analize
 audio, time, duration = rsong.read_song_from_micro(15)
 
 # Find coincidences between songs
-df = analize.match_songs('../landmarks.csv', audio, duration)
+df = analize.match_songs('landmarks.csv', audio, duration)
 
 # Get Fourier transform for graphing
 

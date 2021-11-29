@@ -9,7 +9,7 @@ def getIndex(freq):
         i += 1
     return i
 
-FUZ_FACTOR = 2
+FUZ_FACTOR = 1  
 
 def hash(p1, p2, p3, p4):
     return (p4 - (p4 % FUZ_FACTOR)) * 100000000 + (p3 - (p3 % FUZ_FACTOR)) * 100000 + (p2 - (p2 % FUZ_FACTOR)) * 100 + (p1 - (p1 % FUZ_FACTOR))
@@ -56,7 +56,7 @@ def getLandmarks(song_name, song, duration):
     songId = np.array(songId)
 
     df = pd.DataFrame({'id': songId, 'time': intervals, 'hash': h})
-    df = df[df['hash'] != '0.0']
+    df = df[df['hash'] != 0]
 
     return df
 

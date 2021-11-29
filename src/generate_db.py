@@ -4,7 +4,7 @@ from glob import glob
 
 import analize_song as analize
 
-data_dir = './songs'
+data_dir = '../songs'
 audio_files = glob(data_dir + '/*.wav')
 
 header = False
